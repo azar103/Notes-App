@@ -1,20 +1,29 @@
-import React from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {FlatList, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {COLORS, SIZES} from '../constants';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import notes from '../Helpers/data';
 import NoteItem from '../components/NoteItem';
-const Home = () => {
+import HeaderButton from '../components/HeaderButton';
+import {useDispatch, useSelector} from 'react-redux';
+import {getNotes} from '../Store/actions/noteActions';
+const Home = ({navigation}) => {
+  const dispatch = useDispatch();
+  const notes = useSelector(state => state.note.notes);
+
+  useEffect(() => {
+    dispatch(getNotes());
+  }, []);
+
   const renderHeader = () => (
     <View style={styles.header}>
       <Text style={styles.header_text_style}>Notes</Text>
-      <TouchableOpacity style={styles.btn_search}>
+      <HeaderButton>
         <Ionicons name="search" color={COLORS.secondary} size={25} />
-      </TouchableOpacity>
+      </HeaderButton>
     </View>
   );
-  const renderItem = ({item}) => <NoteItem note={item} />;
+
+  const renderItem = ({item, index}) => <NoteItem note={item} index={index} />;
   const renderList = () => (
     <FlatList
       data={notes}
@@ -23,12 +32,21 @@ const Home = () => {
       renderItem={renderItem}
       keyExtractor={item => item.id.toString()}
       numColumns={2}
+      ListFooterComponent={() => <View style={{marginBottom: 100}} />}
     />
+  );
+  const renderButton = () => (
+    <TouchableOpacity
+      style={styles.btn}
+      onPress={() => navigation.navigate('AddNote')}>
+      <Text style={styles.btn_text}>+</Text>
+    </TouchableOpacity>
   );
   return (
     <View style={styles.main_container}>
       {renderHeader()}
       {renderList()}
+      {renderButton()}
     </View>
   );
 };
@@ -51,12 +69,23 @@ const styles = StyleSheet.create({
     color: COLORS.secondary,
     fontSize: SIZES.h1,
   },
-  btn_search: {
-    backgroundColor: COLORS.lightBlack,
+
+  btn: {
+    width: 60,
+    height: 60,
+    position: 'absolute',
+    bottom: 30,
+    right: 30,
+
+    backgroundColor: COLORS.primary,
+    zIndex: 3,
+    borderRadius: 50,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 50,
-    height: 50,
-    borderRadius: 10,
+    elevation: 8,
+  },
+  btn_text: {
+    fontSize: 30,
+    color: '#fff',
   },
 });
