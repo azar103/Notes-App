@@ -6,6 +6,7 @@ import NoteItem from '../components/NoteItem';
 import HeaderButton from '../components/HeaderButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {getNotes} from '../Store/actions/noteActions';
+import {Swipeable, RectButton} from 'react-native-gesture-handler';
 const Home = ({navigation}) => {
   const dispatch = useDispatch();
   const notes = useSelector(state => state.note.notes);
@@ -24,6 +25,7 @@ const Home = ({navigation}) => {
   );
 
   const renderItem = ({item, index}) => <NoteItem note={item} index={index} />;
+
   const renderList = () => (
     <FlatList
       data={notes}

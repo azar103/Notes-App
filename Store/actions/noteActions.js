@@ -1,4 +1,4 @@
-import {GET_NOTES, ADD_NOTE} from './actionTypes';
+import {GET_NOTES, ADD_NOTE, DELETE_NOTE} from './actionTypes';
 
 export const addNote = note => async dispatch => {
   try {
@@ -15,6 +15,15 @@ export const getNotes = () => async dispatch => {
   try {
     dispatch({
       type: GET_NOTES,
+    });
+  } catch (error) {}
+};
+
+export const deleteNote = note => async dispatch => {
+  try {
+    dispatch({
+      type: DELETE_NOTE,
+      payload: note,
     });
   } catch (error) {}
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {COLORS, SIZES} from '../constants';
 
-const NoteItem = ({note: {name, creation_date, description}, index}) => {
+const NoteItem = ({note: {id, name, creation_date, description}, index}) => {
   const navigation = useNavigation();
 
   return (
@@ -22,6 +22,7 @@ const NoteItem = ({note: {name, creation_date, description}, index}) => {
       }}
       onPress={() =>
         navigation.navigate('NoteDetail', {
+          id,
           name,
           creation_date,
           description,
