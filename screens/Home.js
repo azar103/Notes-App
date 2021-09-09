@@ -6,18 +6,24 @@ import NoteItem from '../components/NoteItem';
 import HeaderButton from '../components/HeaderButton';
 import {useDispatch, useSelector} from 'react-redux';
 import {getNotes} from '../Store/actions/noteActions';
-import {Swipeable, RectButton} from 'react-native-gesture-handler';
-const Home = ({navigation}) => {
+import AntDesign from 'react-native-vector-icons/AntDesign';
+const Home = ({navigation, route}) => {
   const dispatch = useDispatch();
   const notes = useSelector(state => state.note.notes);
 
   useEffect(() => {
     dispatch(getNotes());
   }, []);
+  const {name, count} = route.params;
 
   const renderHeader = () => (
     <View style={styles.header}>
-      <Text style={styles.header_text_style}>Notes</Text>
+      <View style={{flexDirection: 'row', alignItems: 'center'}}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <AntDesign name="left" size={40} color="#fff" />
+        </TouchableOpacity>
+        <Text style={styles.header_text_style}>Notes</Text>
+      </View>
       <HeaderButton>
         <Ionicons name="search" color={COLORS.secondary} size={25} />
       </HeaderButton>
@@ -28,27 +34,44 @@ const Home = ({navigation}) => {
 
   const renderList = () => (
     <FlatList
-      data={notes}
+      data={notes.filter(item => item.category === name)}
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{paddingTop: 40}}
       renderItem={renderItem}
-      keyExtractor={item => item.id.toString()}
       numColumns={2}
       ListFooterComponent={() => <View style={{marginBottom: 100}} />}
+      ListHeaderComponent={() => (
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            marginBottom: 30,
+          }}>
+          <Text style={{color: COLORS.caramel, fontSize: 40}}>{name}</Text>
+          <Text
+            style={{
+              color: COLORS.primary,
+              borderRadius: 30,
+              width: 40,
+              height: 40,
+              textAlign: 'center',
+              textAlignVertical: 'center',
+              fontSize: 30,
+              backgroundColor: COLORS.caramel,
+              marginLeft: 30,
+              fontWeight: 'bold',
+            }}>
+            {count}
+          </Text>
+        </View>
+      )}
     />
   );
-  const renderButton = () => (
-    <TouchableOpacity
-      style={styles.btn}
-      onPress={() => navigation.navigate('AddNote')}>
-      <Text style={styles.btn_text}>+</Text>
-    </TouchableOpacity>
-  );
+
   return (
     <View style={styles.main_container}>
       {renderHeader()}
       {renderList()}
-      {renderButton()}
     </View>
   );
 };

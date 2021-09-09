@@ -1,4 +1,4 @@
-import {GET_NOTES, ADD_NOTE, DELETE_NOTE} from './actionTypes';
+import {GET_NOTES, ADD_NOTE, DELETE_NOTE, EDIT_NOTE} from './actionTypes';
 
 export const addNote = note => async dispatch => {
   try {

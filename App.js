@@ -9,12 +9,14 @@ import NoteDetail from './screens/NoteDetail';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import reduxStore from './Store/store';
+import Categories from './screens/Categories';
 const Stack = createStackNavigator();
 const App = () => {
   const {persistor, store} = reduxStore();
   const Navigatores = () => (
     <NavigationContainer>
       <Stack.Navigator
+        initialRouteName="Categories"
         screenOptions={{
           headerShown: false,
         }}>
@@ -31,6 +33,7 @@ const App = () => {
         <Stack.Screen name="NoteDetail" component={NoteDetail} />
         <Stack.Screen name="EditNote" component={EditNote} />
         <Stack.Screen name="AddNote" component={AddNote} />
+        <Stack.Screen name="Categories" component={Categories} />
       </Stack.Navigator>
     </NavigationContainer>
   );

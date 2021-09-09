@@ -7,10 +7,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import uuid from 'react-native-uuid';
 import {addNote, getNotes} from '../Store/actions/noteActions';
 import moment from 'moment';
-
+import SelectDropdown from 'react-native-select-dropdown';
+import categories from '../Helpers/categories';
 const AddNote = ({navigation}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('');
   const dispatch = useDispatch();
 
   const onChangeName = text => {
@@ -26,10 +28,13 @@ const AddNote = ({navigation}) => {
         id: uuid.v4(),
         name,
         description,
+        category: selectedCategory,
         creation_date: moment(new Date()).format('MMM DD,YYYY'),
       }),
     );
+    navigation.goBack();
   };
+
   return (
     <View style={styles.main_container}>
       <View style={styles.header}>
@@ -47,7 +52,24 @@ const AddNote = ({navigation}) => {
           placeholderTextColor={COLORS.grey}
           selectionColor={COLORS.grey}
           onChangeText={onChangeName}
+          multiline={true}
           value={name}
+        />
+        <SelectDropdown
+          data={categories}
+          onSelect={(selectedItem, index) => {
+            setSelectedCategory(selectedItem);
+          }}
+          buttonTextAfterSelection={(selectedItem, index) => {
+            // text represented after item is selected
+            // if data array is an array of objects then return selectedItem.property to render after item is selected
+            return selectedItem;
+          }}
+          rowTextForSelection={(item, index) => {
+            // text represented for each item in dropdown
+            // if data array is an array of objects then return item.property to represent item in dropdown
+            return item;
+          }}
         />
         <TextInput
           numberOfLines={10}
@@ -57,6 +79,7 @@ const AddNote = ({navigation}) => {
           placeholder="Type something..."
           onChangeText={onChangeDescription}
           value={description}
+          multiline={true}
         />
       </View>
     </View>

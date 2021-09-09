@@ -27,9 +27,6 @@ const NoteDetail = ({navigation, route}) => {
         <MaterialIcons name="keyboard-arrow-left" size={30} color="#fff" />
       </HeaderButton>
       <View style={{flexDirection: 'row'}}>
-        <HeaderButton styleProp={{marginRight: 8}}>
-          <MaterialIcons name="edit" size={20} color="#fff" />
-        </HeaderButton>
         <HeaderButton onPress={onDelete}>
           <EvilIcons name="trash" size={20} color="#fff" />
         </HeaderButton>
