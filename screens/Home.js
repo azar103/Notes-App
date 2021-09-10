@@ -24,7 +24,7 @@ const Home = ({navigation, route}) => {
         </TouchableOpacity>
         <Text style={styles.header_text_style}>Notes</Text>
       </View>
-      <HeaderButton>
+      <HeaderButton onPress={() => navigation.navigate('Search')}>
         <Ionicons name="search" color={COLORS.secondary} size={25} />
       </HeaderButton>
     </View>
@@ -111,6 +111,9 @@ const styles = StyleSheet.create({
   },
   btn_text: {
     fontSize: 30,
+    color: '#fff',
+  },
+  btn_text: {
     color: '#fff',
   },
 });

@@ -10,6 +10,7 @@ import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import reduxStore from './Store/store';
 import Categories from './screens/Categories';
+import Search from './screens/Search';
 const Stack = createStackNavigator();
 const App = () => {
   const {persistor, store} = reduxStore();
@@ -34,6 +35,7 @@ const App = () => {
         <Stack.Screen name="EditNote" component={EditNote} />
         <Stack.Screen name="AddNote" component={AddNote} />
         <Stack.Screen name="Categories" component={Categories} />
+        <Stack.Screen name="Search" component={Search} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,13 +8,16 @@ import uuid from 'react-native-uuid';
 import {addNote, getNotes} from '../Store/actions/noteActions';
 import moment from 'moment';
 import SelectDropdown from 'react-native-select-dropdown';
-import categories from '../Helpers/categories';
+import {categories} from '../Helpers/categories';
 const AddNote = ({navigation}) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const dispatch = useDispatch();
-
+  const notes = useSelector(state => state.note.notes);
+  useEffect(() => {
+    dispatch(getNotes());
+  }, []);
   const onChangeName = text => {
     setName(text);
   };
@@ -34,6 +37,7 @@ const AddNote = ({navigation}) => {
     );
     navigation.goBack();
   };
+  console.log('category' + selectedCategory);
 
   return (
     <View style={styles.main_container}>
@@ -56,7 +60,7 @@ const AddNote = ({navigation}) => {
           value={name}
         />
         <SelectDropdown
-          data={categories}
+          data={['Personal', 'Work', 'Ideas']}
           onSelect={(selectedItem, index) => {
             setSelectedCategory(selectedItem);
           }}
@@ -109,6 +113,7 @@ const styles = StyleSheet.create({
     fontSize: SIZES.h2,
     textAlignVertical: 'top',
     color: COLORS.grey,
+    paddingTop: 20,
   },
   btn_save: {
     width: 80,

@@ -19,7 +19,7 @@ const NoteDetail = ({navigation, route}) => {
         description,
       }),
     );
-    navigation.goBack();
+    navigation.navigate('Categories');
   };
   const renderHeader = () => (
     <View style={styles.header}>
